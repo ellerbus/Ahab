@@ -16,7 +16,7 @@ The start of a simple portfolio simulator for buying and
 selling US stocks given various technical analysis rules.
 Simulation extends a PortfolioSimulator to customize the
 triggers for buy and sell signals as well as implementing
-the rules governing when to buy and with how must cash.
+the rules governing when to buy and with how much cash.
 
 ```
 24461   [INFO  1  ] Model:     SimpleMovingAverageSimulation
