@@ -58,7 +58,7 @@ namespace Ahab.Core
 
         private void DisplayPortfolioSummary()
         {
-            int years = DateTime.Today.Year - StartingDate.Year;
+            int years = EndingDate.Year - StartingDate.Year;
 
             double roi = (Portfolio.Balance - StartingBalance) / StartingBalance;
 
@@ -67,6 +67,7 @@ namespace Ahab.Core
             int trxs = Portfolio.Transactions.Count;
 
             log.Info($"Model:     {GetType().Name}");
+            log.Info($"Years:     {StartingDate.Year} - {EndingDate.Year}");
             log.Info($"Starting:  {StartingBalance,12:N2}");
             log.Info($"Portfolio: {Portfolio.Balance,12:N2}");
             log.Info($"ROI:       {roi,12:0.0%}");

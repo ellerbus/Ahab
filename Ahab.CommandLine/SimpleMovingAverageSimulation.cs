@@ -90,8 +90,6 @@ namespace Ahab.CommandLine
                         }
                     }
                 }
-
-                break;
             }
         }
 
@@ -299,7 +297,11 @@ namespace Ahab.CommandLine
 
             double shares = Math.Floor(amount / buy.Close);
 
-            if (shares > 0 && shares * buy.Close + Portfolio.Commission < Portfolio.Balance)
+            double purchase = shares * buy.Close + Portfolio.Commission;
+
+            double reserve = 1500;
+
+            if (shares > 0 && Portfolio.Balance - purchase > reserve)
             {
                 return (int)shares;
             }
