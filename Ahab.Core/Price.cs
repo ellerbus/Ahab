@@ -29,6 +29,23 @@ namespace Ahab.Core
         }
 
         /// <summary>
+        /// Adjusts all price data based on the <see cref="Split"/>
+        /// </summary>
+        public void MakeAdjustments(Split split)
+        {
+            if (AdjustmentMultiplier == 0)
+            {
+                AdjustmentMultiplier = split.Adjustment;
+            }
+            else
+            {
+                AdjustmentMultiplier *= split.Adjustment;
+            }
+
+            Adjust();
+        }
+
+        /// <summary>
         /// Adjusts all price data based on original adjusted price
         /// (ie. Open=AdjustmentMultiplier*Open)
         /// </summary>
@@ -38,16 +55,21 @@ namespace Ahab.Core
             {
                 AdjustmentMultiplier = AdjustedClose / Close;
 
-                if (AdjustmentMultiplier != 1)
-                {
-                    Open *= AdjustmentMultiplier;
-                    High *= AdjustmentMultiplier;
-                    Low *= AdjustmentMultiplier;
-                    Close *= AdjustmentMultiplier;
-                }
-
-                IsAdjusted = true;
+                Adjust();
             }
+        }
+
+        private void Adjust()
+        {
+            if (AdjustmentMultiplier != 1)
+            {
+                Open *= AdjustmentMultiplier;
+                High *= AdjustmentMultiplier;
+                Low *= AdjustmentMultiplier;
+                Close *= AdjustmentMultiplier;
+            }
+
+            IsAdjusted = true;
         }
 
         #endregion

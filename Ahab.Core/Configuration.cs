@@ -40,7 +40,7 @@ namespace Ahab.Core
             {
                 if (_cacheDirectory.IsNullOrEmpty())
                 {
-                    string setting = ConfigurationManager.AppSettings["CachePath"].AssertNotNull("{userprofile}");
+                    string setting = ConfigurationManager.AppSettings["Ahab.CachePath"].AssertNotNull("{userprofile}");
 
                     if (setting.IsSameAs("{userprofile}"))
                     {
@@ -48,9 +48,9 @@ namespace Ahab.Core
 
                         _cacheDirectory = Path.Combine(_cacheDirectory, "Ahab");
                     }
-                    else if (setting.IndexOf("{env}", StringComparison.InvariantCultureIgnoreCase) >= 0)
+                    else if (setting.IndexOf("{application}", StringComparison.InvariantCultureIgnoreCase) >= 0)
                     {
-                        _cacheDirectory = setting.Replace("{env}", ApplicationDirectory);
+                        _cacheDirectory = setting.Replace("{application}", ApplicationDirectory);
                     }
                     else
                     {

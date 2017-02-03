@@ -5,7 +5,7 @@ using CsvHelper.Configuration;
 
 namespace Ahab.Core.Services
 {
-    public class NasdaqSymbolService : ISymbolService
+    class NasdaqSymbolService
     {
         #region Members
 

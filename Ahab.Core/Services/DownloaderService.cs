@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Net.Http;
-using log4net;
 
 namespace Ahab.Core.Services
 {
@@ -31,12 +30,6 @@ namespace Ahab.Core.Services
 
     public class DownloaderService : IDownloaderService
     {
-        #region Member
-
-        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
-        #endregion
-
         #region Methods
 
         public string GetString(string url, string fileCacheName)
@@ -49,8 +42,6 @@ namespace Ahab.Core.Services
 
             if (IsCacheStale(fullpath))
             {
-                log.DebugFormat("Cache IsStale(or missing) File=[{0}]", name);
-
                 contents = GetString(url);
 
                 File.WriteAllText(fullpath, contents);
@@ -65,30 +56,19 @@ namespace Ahab.Core.Services
 
         public string GetString(string url)
         {
-            try
+            using (HttpClient client = new HttpClient())
             {
-                log.DebugFormat("Downloading Url=[{0}]", url);
-
-                using (HttpClient client = new HttpClient())
+                using (HttpResponseMessage response = client.GetAsync(url).Result)
                 {
-                    using (HttpResponseMessage response = client.GetAsync(url).Result)
+                    string data = response.Content.ReadAsStringAsync().Result;
+
+                    if (response.IsSuccessStatusCode)
                     {
-                        string data = response.Content.ReadAsStringAsync().Result;
-
-                        if (response.IsSuccessStatusCode)
-                        {
-                            return data.ToUpperInvariant();
-                        }
-
-                        return "";
+                        return data.ToUpperInvariant();
                     }
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Fatal(ex);
 
-                throw;
+                    return "";
+                }
             }
         }
 

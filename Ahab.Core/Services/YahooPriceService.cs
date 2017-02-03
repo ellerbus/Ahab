@@ -6,7 +6,7 @@ using CsvHelper.Configuration;
 
 namespace Ahab.Core.Services
 {
-    public class YahooPriceService : IPriceService
+    class YahooPriceService
     {
         #region Members
 

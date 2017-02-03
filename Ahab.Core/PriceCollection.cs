@@ -54,19 +54,44 @@ namespace Ahab.Core
         {
             base.SetItem(index, item);
 
-            item.StockId = StockId;
+            Update(item);
         }
 
         protected override void InsertItem(int index, Price item)
         {
             base.InsertItem(index, item);
 
+            Update(item);
+        }
+
+        private void Update(Price item)
+        {
             item.StockId = StockId;
         }
 
         #endregion
 
         #region Helper Methods
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public bool ContainsDate(DateTime dt)
+        {
+            if (dt < MinDate)
+            {
+                return false;
+            }
+
+            if (dt > MaxDate)
+            {
+                return false;
+            }
+
+            return Contains(dt);
+        }
 
         /// <summary>
         /// Based on the <see cref="CurrentIndex"/> and a given lookback
@@ -82,6 +107,25 @@ namespace Ahab.Core
             for (int i = start; i <= endIndex; i++)
             {
                 yield return this[i];
+            }
+        }
+
+        /// <summary>
+        /// Adjust prices for split
+        /// </summary>
+        /// <param name="split"></param>
+        public void AddSplit(Split split)
+        {
+            lock (_lock)
+            {
+                if (split.Date.IsBetween(MinDate, MaxDate))
+                {
+                    //  ok where does it fit in
+                    foreach (Price p in this.Where(x => x.Date < split.Date))
+                    {
+                        p.MakeAdjustments(split);
+                    }
+                }
             }
         }
 
@@ -102,11 +146,11 @@ namespace Ahab.Core
                 }
 
                 //  insert at the appropriate index
-                Price cp = new Price { Date = date };
+                Price price = new Price { Date = date };
 
                 if (Count == 0)
                 {
-                    Insert(0, cp);
+                    Insert(0, price);
                 }
                 else
                 {
@@ -121,10 +165,10 @@ namespace Ahab.Core
                         }
                     }
 
-                    Insert(index, cp);
+                    Insert(index, price);
                 }
 
-                return cp;
+                return price;
             }
         }
 
@@ -136,6 +180,38 @@ namespace Ahab.Core
         /// 
         /// </summary>
         public string StockId { get; private set; }
+
+        /// <summary>
+        /// Get the Date of the first Price (otherwise DateTime.MaxValue)
+        /// </summary>
+        public DateTime MinDate
+        {
+            get
+            {
+                if (Count == 0)
+                {
+                    return DateTime.MaxValue;
+                }
+
+                return this.First().Date;
+            }
+        }
+
+        /// <summary>
+        /// Get the Date of the last Price (otherwise DateTime.MinValue)
+        /// </summary>
+        public DateTime MaxDate
+        {
+            get
+            {
+                if (Count == 0)
+                {
+                    return DateTime.MinValue;
+                }
+
+                return this.Last().Date;
+            }
+        }
 
         #endregion
     }

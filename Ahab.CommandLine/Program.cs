@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Reflection;
-using Ahab.Core.Services;
-using log4net;
+using Ahab.Core;
 using log4net.Config;
 
 namespace Ahab.CommandLine
@@ -12,9 +10,11 @@ namespace Ahab.CommandLine
         {
             XmlConfigurator.Configure();
 
-            SimpleMovingAverageSimulation m = new SimpleMovingAverageSimulation(new DateTime(2007, 6, 1));
+            PortfolioSimulator ps = new PortfolioSimulator();
 
-            m.RunSimulation();
+            PortfolioSummary summary = ps.RunSimulation(new TechnicalAnalysisPortfolioModel());
+
+            Console.WriteLine(summary);
         }
     }
 }

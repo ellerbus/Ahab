@@ -5,7 +5,7 @@ using CsvHelper.Configuration;
 
 namespace Ahab.Core.Services
 {
-    public class Sp500ConstituentService : ISp500ConstituentService
+    class Sp500ConstituentService
     {
         #region Members
 

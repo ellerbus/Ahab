@@ -3,22 +3,22 @@ using System.Collections.Generic;
 
 namespace Ahab.Core
 {
-    public class Portfolio
+    public sealed class Portfolio
     {
         #region Constructors
 
-        public Portfolio(double startingBalance)
+        internal Portfolio(IPortfolioModel model)
         {
-            Balance = startingBalance;
+            Balance = model.StartingBalance;
 
-            Commission = 8.95;
+            Commission = model.Commission;
         }
 
         #endregion
 
         #region Methods
 
-        public void ApplyTransaction(Transaction trx)
+        internal void ApplyTransaction(Transaction trx)
         {
             trx.Commission = Commission;
 
@@ -58,7 +58,6 @@ namespace Ahab.Core
                 throw new InvalidOperationException(msg);
             }
         }
-
 
         #endregion
 
