@@ -12,7 +12,7 @@ namespace Ahab.CommandLine
     {
         #region Members
 
-        private IDataService _dataService;
+        private IAhabDataService _dataService;
         private int _windowSize = 3;
 
         #endregion
@@ -21,7 +21,16 @@ namespace Ahab.CommandLine
 
         public TechnicalAnalysisPortfolioModel()
         {
-            _dataService = new DataService();
+            _dataService = new AhabDataService();
+        }
+
+        #endregion
+
+        #region Forecast
+
+        public IEnumerable<Signal> Forecast()
+        {
+            yield break;
         }
 
         #endregion
