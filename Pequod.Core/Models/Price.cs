@@ -51,7 +51,7 @@ namespace Pequod.Core.Models
         /// </summary>
         public void MakeAdjustments()
         {
-            if (!IsAdjusted)
+            if (!IsAdjusted && AdjustedClose > 0 && Close > 0)
             {
                 AdjustmentMultiplier = AdjustedClose / Close;
 
@@ -89,27 +89,27 @@ namespace Pequod.Core.Models
         /// <summary>
         /// Gets / Sets the price open
         /// </summary>
-        public double Open { get; set; }
+        public double Open { get; set; } = double.NaN;
 
         /// <summary>
         /// Gets / Sets the price high
         /// </summary>
-        public double High { get; set; }
+        public double High { get; set; } = double.NaN;
 
         /// <summary>
         /// Gets / Sets the price low
         /// </summary>
-        public double Low { get; set; }
+        public double Low { get; set; } = double.NaN;
 
         /// <summary>
         /// Gets / Sets the price close
         /// </summary>
-        public double Close { get; set; }
+        public double Close { get; set; } = double.NaN;
 
         /// <summary>
         /// Gets / Sets the price adjusted close
         /// </summary>
-        public double AdjustedClose { get; set; }
+        public double AdjustedClose { get; set; } = 0;
 
         /// <summary>
         /// Gets / Sets the days volume

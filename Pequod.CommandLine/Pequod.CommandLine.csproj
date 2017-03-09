@@ -51,6 +51,12 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\thestocksniper\TheStockSniper\TheStockSniper.Core\PortfolioModels\BasePortfolioModel.cs">
+      <Link>BasePortfolioModel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\thestocksniper\TheStockSniper\TheStockSniper.Core\PortfolioModels\MomentumPortfolioModel.cs">
+      <Link>MomentumPortfolioModel.cs</Link>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

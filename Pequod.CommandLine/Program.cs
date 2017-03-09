@@ -30,15 +30,18 @@ namespace Pequod.CommandLine
 
             DateTime end = DateTime.Today.EndOfYear().Date;
 
-            for (DateTime dt = start; dt < end; dt = dt.AddMonths(1))
-            {
-                DateTime buy = dt.FirstTradingDayOfMonth(DayOfWeek.Friday);
+            //for (DateTime dt = start; dt < end; dt = dt.AddMonths(1))
+            //{
+            //    DateTime buy = dt.FirstTradingDayOfMonth(DayOfWeek.Friday);
 
-                DateTime sell = buy.AddMonths(6).FirstTradingDayOfMonth(DayOfWeek.Friday).AddDays(-1);
+            //    DateTime sell = buy.AddMonths(6).FirstTradingDayOfMonth(DayOfWeek.Friday).AddDays(-1);
 
-                log.Debug($"{buy:yyyy-MM-dd} -> {sell:yyyy-MM-dd}");
-            }
+            //    log.Debug($"{buy:yyyy-MM-dd} -> {sell:yyyy-MM-dd}");
+            //}
 
+            var mo = new TheStockSniper.Core.PortfolioModels.MomentumPortfolioModel(start);
+
+            mo.FindSignals().ToList();
         }
     }
 }

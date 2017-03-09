@@ -14,6 +14,7 @@ namespace Pequod.Core.Models
             map.Map(x => x.Ticker).Name("ticker");
             map.Map(x => x.Date).Name("date");
             map.Map(x => x.Close).Name("close");
+            map.Map(x => x.AdjustedClose).Name("adj_close");
 
             CsvConfiguration cfg = new CsvConfiguration()
             {

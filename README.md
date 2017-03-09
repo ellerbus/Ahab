@@ -243,3 +243,7 @@ class SimpleMovingAverageSimulation : PortfolioSimulator
     }
 }
 ```
+
+## Other Points of Interest
+
+- Open Source Lib Inspiration : https://github.com/salmonthinlion/Quandl.NET

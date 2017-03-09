@@ -7,50 +7,6 @@ namespace Ahab.Core
 {
     public static class Extensions
     {
-        #region DateTime
-
-        /// <summary>
-        /// roll forward from to the nearest Friday (then backward from a Holiday)
-        /// </summary>
-        /// <param name="dt"></param>
-        /// <returns></returns>
-        public static DateTime LastBusinessDay(this DateTime dt)
-        {
-            while (dt.DayOfWeek != DayOfWeek.Friday)
-            {
-                dt = dt.AddDays(1);
-            }
-
-            while (dt.IsHoliday())
-            {
-                dt = dt.AddDays(-1);
-            }
-
-            return dt;
-        }
-
-        /// <summary>
-        /// roll backward to the nearest Monday (then forward from a Holiday)
-        /// </summary>
-        /// <param name="dt"></param>
-        /// <returns></returns>
-        public static DateTime FirstBusinessDay(this DateTime dt)
-        {
-            while (dt.DayOfWeek != DayOfWeek.Monday)
-            {
-                dt = dt.AddDays(-1);
-            }
-
-            while (dt.IsHoliday())
-            {
-                dt = dt.AddDays(1);
-            }
-
-            return dt;
-        }
-
-        #endregion
-
         #region Double Extensions
 
         /// <summary>
