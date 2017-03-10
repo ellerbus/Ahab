@@ -13,7 +13,7 @@ namespace Pequod.Core.Models
 
         public Split(string stockId, DateTime date, string ratio) : this()
         {
-            Ticker = stockId;
+            Symbol = stockId;
 
             Date = date;
 
@@ -55,7 +55,7 @@ namespace Pequod.Core.Models
         ///	<summary>
         ///	
         ///	</summary>
-        public string Ticker { get; set; }
+        public string Symbol { get; set; }
 
         ///	<summary>
         ///	Date of split

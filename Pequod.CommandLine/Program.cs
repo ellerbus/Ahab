@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Augment;
 using log4net;
 using log4net.Config;
 using Pequod.Core;
@@ -25,23 +24,15 @@ namespace Pequod.CommandLine
 
             log.Debug($"EOD.Count={ds.GetEndOfDayPrices("WDC", DateTime.Today.AddDays(-30), DateTime.Today.AddDays(-1)).Count()}");
 
+            log.Debug($"EOD.WDC={ds.GetEndOfDayPrices("WDC", DateTime.Today.FirstTradingDayOfMonth(DayOfWeek.Monday)).First()}");
 
-            DateTime start = DateTime.Today.BeginningOfYear().AddYears(-1).FirstTradingDayOfMonth(DayOfWeek.Friday);
+            //var ta = new TechnicalAnalysisPortfolioModel();
 
-            DateTime end = DateTime.Today.EndOfYear().Date;
+            //var simulator = new PortfolioSimulator();
 
-            //for (DateTime dt = start; dt < end; dt = dt.AddMonths(1))
-            //{
-            //    DateTime buy = dt.FirstTradingDayOfMonth(DayOfWeek.Friday);
+            //var summary = simulator.RunSimulation(ta);
 
-            //    DateTime sell = buy.AddMonths(6).FirstTradingDayOfMonth(DayOfWeek.Friday).AddDays(-1);
-
-            //    log.Debug($"{buy:yyyy-MM-dd} -> {sell:yyyy-MM-dd}");
-            //}
-
-            var mo = new TheStockSniper.Core.PortfolioModels.MomentumPortfolioModel(start);
-
-            mo.FindSignals().ToList();
+            //log.Debug(summary);
         }
     }
 }

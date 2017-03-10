@@ -2,16 +2,8 @@
 
 namespace Pequod.Core.Models
 {
-    class IndexTickerMap : CsvClassMap<IndexTicker>
+    class IndexSymbolMap : CsvClassMap<IndexSymbol>
     {
-        public IndexTickerMap()
-        {
-            Map(x => x.Ticker).Name("ticker");
-            Map(x => x.Name).Name("name");
-            Map(x => x.FreeCode).Name("free_code");
-            Map(x => x.PremiumCode).Name("premium_code");
-        }
-
         public static CsvConfiguration GetConfiguration()
         {
             CsvConfiguration cfg = new CsvConfiguration()
@@ -20,7 +12,13 @@ namespace Pequod.Core.Models
                 IsHeaderCaseSensitive = false
             };
 
-            cfg.RegisterClassMap<IndexTickerMap>();
+            IndexSymbolMap map = new IndexSymbolMap();
+
+            map.Map(x => x.Symbol).Name("symbol");
+            map.Map(x => x.Name).Name("name");
+            map.Map(x => x.Sector).Name("sector");
+
+            cfg.RegisterClassMap(map);
 
             return cfg;
         }

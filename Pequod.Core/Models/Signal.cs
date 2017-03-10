@@ -8,9 +8,9 @@
     {
         #region Constructors
 
-        public Signal(string ticker)
+        public Signal(string symbol)
         {
-            Ticker = ticker;
+            Symbol = symbol;
         }
 
         #endregion
@@ -31,10 +31,10 @@
             {
                 if (IsOpen)
                 {
-                    return $"[{Ticker}, {Buy.Date:MM/dd/yyyy}] IsOpen";
+                    return $"[{Symbol}, {Buy.Date:MM/dd/yyyy}] IsOpen";
                 }
 
-                return $"[{Ticker}, {Sell.Date:MM/dd/yyyy} {ReturnOnSell:0%}] IsClosed";
+                return $"[{Symbol}, {Sell.Date:MM/dd/yyyy} {ReturnOnSell:0%}] IsClosed";
 
             }
         }
@@ -46,7 +46,7 @@
         ///	<summary>
         ///	
         ///	</summary>
-        public string Ticker { get; private set; }
+        public string Symbol { get; private set; }
 
         ///	<summary>
         ///	

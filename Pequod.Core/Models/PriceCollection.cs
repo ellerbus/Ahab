@@ -16,12 +16,12 @@ namespace Pequod.Core.Models
 
         #region Constructors
 
-        public PriceCollection(string ticker)
+        public PriceCollection(string symbol)
         {
-            Ticker = ticker;
+            Symbol = symbol;
         }
 
-        public PriceCollection(string ticker, IEnumerable<Price> prices) : this(ticker)
+        public PriceCollection(string symbol, IEnumerable<Price> prices) : this(symbol)
         {
             foreach (Price price in prices.OrderBy(x => x.Date))
             {
@@ -66,7 +66,7 @@ namespace Pequod.Core.Models
 
         private void Update(Price item)
         {
-            item.Ticker = Ticker;
+            item.Symbol = Symbol;
         }
 
         #endregion
@@ -179,7 +179,7 @@ namespace Pequod.Core.Models
         /// <summary>
         /// 
         /// </summary>
-        public string Ticker { get; private set; }
+        public string Symbol { get; private set; }
 
         /// <summary>
         /// Get the Date of the first Price (otherwise DateTime.MaxValue)

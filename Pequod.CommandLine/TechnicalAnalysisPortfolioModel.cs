@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Ahab.Core;
-using Ahab.Core.Indicators;
-using Ahab.Core.Services;
 using Augment;
+using Pequod.Core;
+using Pequod.Core.Indicators;
+using Pequod.Core.Models;
+using Pequod.Core.PortfolioSimulation;
 
-namespace Ahab.CommandLine
+namespace Pequod.CommandLine
 {
     class TechnicalAnalysisPortfolioModel : IPortfolioModel
     {
         #region Members
 
-        private IAhabDataService _dataService;
+        private IDataService _dataService;
         private int _windowSize = 3;
 
         #endregion
@@ -21,7 +22,7 @@ namespace Ahab.CommandLine
 
         public TechnicalAnalysisPortfolioModel()
         {
-            _dataService = new AhabDataService();
+            _dataService = new DataService(new DownloaderService());
         }
 
         #endregion
@@ -41,11 +42,9 @@ namespace Ahab.CommandLine
         {
             Range<DateTime> dateRange = new Range<DateTime>(StartingDate, EndingDate);
 
-            HashSet<string> sp500 = new HashSet<string>(_dataService.GetConstituents(), StringComparer.OrdinalIgnoreCase);
+            IList<string> symbols = _dataService.GetComponentsOfSp500().Select(x => x.Symbol).ToList();
 
-            SymbolCollection symbols = new SymbolCollection(_dataService.GetAllSymbols());
-
-            foreach (Symbol symbol in symbols.Where(s => sp500.Contains(s.StockId)))
+            foreach (string symbol in symbols)
             {
                 List<Signal> signals = new List<Signal>();
 
@@ -73,7 +72,7 @@ namespace Ahab.CommandLine
                         }
                         else if (HasSellSignal(prices, i))
                         {
-                            Signal bought = signals.FirstOrDefault(x => x.StockId == prices[i].StockId && x.IsOpen);
+                            Signal bought = signals.FirstOrDefault(x => x.Symbol == prices[i].Symbol && x.IsOpen);
 
                             if (bought != null)
                             {
@@ -91,7 +90,7 @@ namespace Ahab.CommandLine
 
         private Signal CreateSignal(Price price)
         {
-            Signal signal = new Signal(price.StockId)
+            Signal signal = new Signal(price.Symbol)
             {
                 Buy = price
             };
@@ -290,11 +289,11 @@ namespace Ahab.CommandLine
 
         #region Methods
 
-        private Prices GetPricesFor(Symbol symbol)
+        private Prices GetPricesFor(string symbol)
         {
-            IEnumerable<Price> data = _dataService.GetDailyHistoricalPrices(symbol.StockId, StartingDate, EndingDate);
+            IEnumerable<Price> data = _dataService.GetEndOfDayPrices(symbol, StartingDate, EndingDate);
 
-            Prices prices = new Prices(symbol.StockId, data);
+            Prices prices = new Prices(symbol, data);
 
             return prices;
         }

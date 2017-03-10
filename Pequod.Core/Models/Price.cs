@@ -4,7 +4,7 @@ using System.Diagnostics;
 namespace Pequod.Core.Models
 {
     /// <summary>
-    /// The closing price of a Ticker
+    /// The closing price of a Symbol
     /// </summary>
     [DebuggerDisplay("{DebuggerDisplay(),nq}")]
     public class Price
@@ -79,7 +79,7 @@ namespace Pequod.Core.Models
         /// <summary>
         /// This prices Stock ID
         /// </summary>
-        public string Ticker { get; set; }
+        public string Symbol { get; set; }
 
         /// <summary>
         /// Gets / Sets the price date

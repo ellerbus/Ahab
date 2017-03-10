@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Augment;
 
-namespace Ahab.Core
+namespace Pequod.Core
 {
     public static class Extensions
     {

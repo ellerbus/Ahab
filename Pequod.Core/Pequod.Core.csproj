@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Pequod.Core</RootNamespace>
     <AssemblyName>Pequod.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -80,8 +81,8 @@
     <Compile Include="Models\PriceCollection.cs" />
     <Compile Include="Models\PriceMap.cs" />
     <Compile Include="Models\Price.cs" />
-    <Compile Include="Models\IndexTickerMap.cs" />
-    <Compile Include="Models\IndexTicker.cs" />
+    <Compile Include="Models\IndexSymbolMap.cs" />
+    <Compile Include="Models\IndexSymbol.cs" />
     <Compile Include="Models\Signal.cs" />
     <Compile Include="Models\Split.cs" />
     <Compile Include="PortfolioSimulation\PortfolioLedger.cs" />

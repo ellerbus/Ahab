@@ -11,7 +11,7 @@ namespace Pequod.Core.Models
         {
             PriceMap map = new PriceMap();
 
-            map.Map(x => x.Ticker).Name("ticker");
+            map.Map(x => x.Symbol).Name("ticker");
             map.Map(x => x.Date).Name("date");
             map.Map(x => x.Close).Name("close");
             map.Map(x => x.AdjustedClose).Name("adj_close");

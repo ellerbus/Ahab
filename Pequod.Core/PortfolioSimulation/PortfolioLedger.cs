@@ -40,23 +40,23 @@ namespace Pequod.Core.PortfolioSimulation
                 throw new InvalidOperationException(msg);
             }
 
-            if (!SharesOwned.ContainsKey(trx.Ticker))
+            if (!SharesOwned.ContainsKey(trx.Symbol))
             {
-                SharesOwned[trx.Ticker] = 0;
+                SharesOwned[trx.Symbol] = 0;
             }
 
             if (trx.Type == TransactionTypes.Buy)
             {
-                SharesOwned[trx.Ticker] += trx.Shares;
+                SharesOwned[trx.Symbol] += trx.Shares;
             }
             else if (trx.Type == TransactionTypes.Sell)
             {
-                SharesOwned[trx.Ticker] += trx.Shares;
+                SharesOwned[trx.Symbol] += trx.Shares;
             }
 
-            if (SharesOwned[trx.Ticker] < 0)
+            if (SharesOwned[trx.Symbol] < 0)
             {
-                string msg = $"Invalid Transaction, shares of {trx.Ticker} are below 0.\n[{trx.ToString()}]";
+                string msg = $"Invalid Transaction, shares of {trx.Symbol} are below 0.\n[{trx.ToString()}]";
 
                 throw new InvalidOperationException(msg);
             }

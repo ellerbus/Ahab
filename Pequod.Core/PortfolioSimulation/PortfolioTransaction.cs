@@ -39,7 +39,7 @@ namespace Pequod.Core.PortfolioSimulation
 
         private string DebuggerDisplay()
         {
-            return $"{GetType().Name} [{Ticker,-5} {Type,-4} {Date:MM/dd/yyyy}] {Shares,8:N0}x{Amount,13:C2}={Balance,12:C2}";
+            return $"{GetType().Name} [{Symbol,-5} {Type,-4} {Date:MM/dd/yyyy}] {Shares,8:N0}x{Amount,13:C2}={Balance,12:C2}";
         }
 
         public override string ToString()
@@ -81,7 +81,7 @@ namespace Pequod.Core.PortfolioSimulation
         /// <summary>
         /// 
         /// </summary>
-        public string Ticker { get { return Signal.Ticker; } }
+        public string Symbol { get { return Signal.Symbol; } }
 
         /// <summary>
         /// 

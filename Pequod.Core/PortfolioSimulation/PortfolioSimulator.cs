@@ -15,7 +15,9 @@ namespace Pequod.Core.PortfolioSimulation
         {
             PortfolioLedger portfolio = new PortfolioLedger(model);
 
-            IList<Signal> signals = model.FindSignals().ToList();
+            IList<Signal> signals = model.FindSignals()
+                .Where(x => x.IsClosed)
+                .ToList();
 
             TradeSignals(model, portfolio, signals);
 
