@@ -85,9 +85,7 @@
     <Compile Include="Models\IndexSymbol.cs" />
     <Compile Include="Models\Signal.cs" />
     <Compile Include="Models\Split.cs" />
-    <Compile Include="PortfolioSimulation\PortfolioLedger.cs" />
     <Compile Include="PortfolioSimulation\PortfolioSimulator.cs" />
-    <Compile Include="PortfolioSimulation\PortfolioSummary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PortfolioSimulation\PortfolioTransaction.cs" />
   </ItemGroup>

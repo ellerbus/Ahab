@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
 using Flurl.Http;
 
@@ -77,19 +76,19 @@ namespace Pequod.Core
                 return true;
             }
 
-            DateTime modified = File.GetLastWriteTime(fullpath);
+            //DateTime modified = File.GetLastWriteTime(fullpath);
 
-            DateTime previousFriday = DateTime.Today;
+            //DateTime previousFriday = DateTime.Today;
 
-            while (previousFriday.DayOfWeek != DayOfWeek.Friday)
-            {
-                previousFriday = previousFriday.AddDays(-1);
-            }
+            //while (previousFriday.DayOfWeek != DayOfWeek.Friday)
+            //{
+            //    previousFriday = previousFriday.AddDays(-1);
+            //}
 
-            if (modified < previousFriday)
-            {
-                return true;
-            }
+            //if (modified < previousFriday)
+            //{
+            //    return true;
+            //}
 
             return false;
         }

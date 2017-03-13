@@ -1,34 +1,78 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Pequod.Core.Models;
 
 namespace Pequod.Core.PortfolioSimulation
 {
     public sealed class PortfolioSimulator
     {
+        #region Constructors
+
+        public PortfolioSimulator(IPortfolioModel model)
+        {
+            Model = model;
+        }
+
+        #endregion
+
         #region Methods
+
+        public string SimulationSummary()
+        {
+            StringBuilder display = new StringBuilder();
+
+            int trxs = Transactions.Count;
+
+            display
+                .AppendLine()
+                .Append($"Model:       {Model.GetType().Name}").AppendLine()
+                .Append($"Years:        {Model.StartingDate.Year} - {Model.EndingDate.Year}").AppendLine()
+                .Append($"Starting:    {Model.StartingBalance,12:N2}").AppendLine()
+                .Append($"Portfolio:   {Balance,12:N2}").AppendLine()
+                .Append($"ROI:         {Return,12:0.0%}").AppendLine()
+                .Append($"CAGR:        {Cagr,12:0.0%}").AppendLine()
+                .Append($"# Triggers:  {TradedSignals.Count(),9:0}").AppendLine()
+                .Append($"# + ROI:     {TradedSignals.Count(x => x.ReturnOnSell > 0),9:0}").AppendLine()
+                .Append($"# - ROI:     {TradedSignals.Count(x => x.ReturnOnSell < 0),9:0}").AppendLine();
+
+            return display.ToString();
+        }
 
         /// <summary>
         /// 
         /// </summary>
-        public PortfolioSummary RunSimulation(IPortfolioModel model)
+        public void RunSimulation()
         {
-            PortfolioLedger portfolio = new PortfolioLedger(model);
+            RunSimulation(Model.StartingDate, false);
+        }
 
-            IList<Signal> signals = model.FindSignals()
-                .Where(x => x.IsClosed)
+        /// <summary>
+        /// 
+        /// </summary>
+        public void RunSimulation(DateTime portfolioStart, bool allowOpenSignals)
+        {
+            Balance = Model.StartingBalance;
+
+            TradedSignals.Clear();
+
+            Transactions.Clear();
+
+            SharesOwned.Clear();
+
+            IList<Signal> signals = Model.FindSignals()
+                .Where(x => x.Buy.Date >= portfolioStart && (allowOpenSignals || x.IsClosed))
                 .ToList();
 
-            TradeSignals(model, portfolio, signals);
-
-            return new PortfolioSummary(model, portfolio, signals);
+            TradeSignals(signals);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="signals"></param>
-        private void TradeSignals(IPortfolioModel model, PortfolioLedger portfolio, IEnumerable<Signal> signals)
+        private void TradeSignals(IList<Signal> signals)
         {
             IList<PortfolioTransaction> transactions = BuildTransactions(signals)
                 .OrderBy(x => x.Date)
@@ -40,15 +84,17 @@ namespace Pequod.Core.PortfolioSimulation
             {
                 if (trx.Type == TransactionTypes.Buy)
                 {
-                    int shares = model.GetSharesToPurchase(trx.Signal.Buy, portfolio.Balance);
+                    int shares = Model.GetSharesToPurchase(trx.Signal.Buy, Balance);
 
                     if (shares > 0)
                     {
                         trx.Shares = shares;
 
-                        portfolio.ApplyTransaction(trx);
+                        ApplyTransaction(trx);
 
                         buys.Add(trx);
+
+                        TradedSignals.Add(trx.Signal);
                     }
                 }
                 else if (buys.Count > 0)
@@ -59,11 +105,52 @@ namespace Pequod.Core.PortfolioSimulation
                     {
                         trx.Shares = buy.Shares;
 
-                        portfolio.ApplyTransaction(trx);
+                        ApplyTransaction(trx);
 
                         buys.Remove(buy);
                     }
                 }
+            }
+        }
+
+        private void ApplyTransaction(PortfolioTransaction trx)
+        {
+            trx.Commission = Model.Commission;
+
+            trx.Balance = Balance + trx.Amount;
+
+            trx.AppliedToPortfolio = true;
+
+            Transactions.Add(trx);
+
+            Balance = trx.Balance;
+
+            if (Balance < 0)
+            {
+                string msg = $"Invalid Transaction, Portfolio Balance is below 0.\n[{trx.ToString()}]";
+
+                throw new InvalidOperationException(msg);
+            }
+
+            if (!SharesOwned.ContainsKey(trx.Symbol))
+            {
+                SharesOwned[trx.Symbol] = 0;
+            }
+
+            if (trx.Type == TransactionTypes.Buy)
+            {
+                SharesOwned[trx.Symbol] += trx.Shares;
+            }
+            else if (trx.Type == TransactionTypes.Sell)
+            {
+                SharesOwned[trx.Symbol] += trx.Shares;
+            }
+
+            if (SharesOwned[trx.Symbol] < 0)
+            {
+                string msg = $"Invalid Transaction, shares of {trx.Symbol} are below 0.\n[{trx.ToString()}]";
+
+                throw new InvalidOperationException(msg);
             }
         }
 
@@ -79,6 +166,59 @@ namespace Pequod.Core.PortfolioSimulation
                 }
             }
         }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// The model used
+        /// </summary>
+        public IPortfolioModel Model { get; private set; }
+
+        /// <summary>
+        /// The total number of years simulated
+        /// </summary>
+        public int Years
+        {
+            get { return Model.EndingDate.Year - Model.StartingDate.Year; }
+        }
+
+        /// <summary>
+        /// The total portfolio return (profit or loss)
+        /// </summary>
+        public double Return
+        {
+            get { return (Balance - Model.StartingBalance) / Model.StartingBalance; }
+        }
+
+        /// <summary>
+        /// The annualized growth rate per year
+        /// </summary>
+        public double Cagr
+        {
+            get { return Math.Pow(Balance / Model.StartingBalance, 1.0 / Years) - 1; }
+        }
+
+        /// <summary>
+        /// Gets the current portfolio balance
+        /// </summary>
+        public double Balance { get; private set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<Signal> TradedSignals { get; } = new List<Signal>();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<PortfolioTransaction> Transactions { get; } = new List<PortfolioTransaction>();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private Dictionary<string, int> SharesOwned { get; } = new Dictionary<string, int>();
 
         #endregion
     }
