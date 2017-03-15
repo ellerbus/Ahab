@@ -31,16 +31,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Augment, Version=1.5.5819.19079, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Augment.1.5.5819.19079\lib\net45\Augment.dll</HintPath>
+    <Reference Include="Augment, Version=2.1.6283.21686, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Augment.2.1.0\lib\net451\Augment.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
       <HintPath>..\packages\CsvHelper.2.16.3.0\lib\net45\CsvHelper.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="EnsureThat, Version=4.0.0.26, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ensure.That.4.0.0\lib\net45\EnsureThat.dll</HintPath>
+    <Reference Include="Ensure.That, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ensure.That.5.0.0\lib\net45\Ensure.That.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Flurl, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -51,8 +51,8 @@
       <HintPath>..\packages\Flurl.Http.1.1.2\lib\net45\Flurl.Http.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="log4net, Version=2.0.7.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.7\lib\net45-full\log4net.dll</HintPath>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
