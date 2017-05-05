@@ -77,7 +77,7 @@
     <Compile Include="Indicators\SimpleMovingAverage.cs" />
     <Compile Include="Indicators\SlowStochastics.cs" />
     <Compile Include="Indicators\VolumeMovingAverage.cs" />
-    <Compile Include="PortfolioSimulation\IPortfolioModel.cs" />
+    <Compile Include="PortfolioSimulation\ISimulationModel.cs" />
     <Compile Include="Models\PriceCollection.cs" />
     <Compile Include="Models\PriceMap.cs" />
     <Compile Include="Models\Price.cs" />

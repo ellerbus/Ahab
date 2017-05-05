@@ -118,7 +118,7 @@ namespace Pequod.Core
         /// <returns></returns>
         public IEnumerable<Price> GetEndOfDayPrices(string symbol, DateTime start, DateTime end)
         {
-            string url = $"{_yahooUrl}?s={symbol}&g=d" +                //daily
+            string url = $"{_yahooUrl}?s={symbol}&g=d" +            //daily
             $"&a={start.Month - 1}&b={start.Day}&c={start.Year}" +  //start
             $"&d={end.Month - 1}&e={end.Day}&f={end.Year}" +        //end
             $""

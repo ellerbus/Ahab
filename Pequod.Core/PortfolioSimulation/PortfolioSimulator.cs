@@ -10,7 +10,7 @@ namespace Pequod.Core.PortfolioSimulation
     {
         #region Constructors
 
-        public PortfolioSimulator(IPortfolioModel model)
+        public PortfolioSimulator(ISimulationModel model)
         {
             Model = model;
         }
@@ -174,7 +174,7 @@ namespace Pequod.Core.PortfolioSimulation
         /// <summary>
         /// The model used
         /// </summary>
-        public IPortfolioModel Model { get; private set; }
+        public ISimulationModel Model { get; private set; }
 
         /// <summary>
         /// The total number of years simulated

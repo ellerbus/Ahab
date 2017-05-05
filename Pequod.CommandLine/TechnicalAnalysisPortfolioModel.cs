@@ -9,7 +9,7 @@ using Pequod.Core.PortfolioSimulation;
 
 namespace Pequod.CommandLine
 {
-    class TechnicalAnalysisPortfolioModel : IPortfolioModel
+    class TechnicalAnalysisPortfolioModel : ISimulationModel
     {
         #region Members
 
@@ -316,7 +316,7 @@ namespace Pequod.CommandLine
         /// <summary>
         /// Starting date for this simulation
         /// </summary>
-        public DateTime StartingDate { get { return new DateTime(2002, 1, 1); } }
+        public DateTime StartingDate { get { return DateTime.Today.AddYears(-2); } }
 
         /// <summary>
         /// Ending date for this simulation (today by default)

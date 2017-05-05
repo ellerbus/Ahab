@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using Pequod.Core.Models;
 
-namespace Ahab.Core
+namespace Pequod.Core.PortfolioSimulation
 {
-    public interface IPortfolioModel
+    public interface ISimulationModel
     {
         /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        IEnumerable<Signal> Forecast();
-
-        /// <summary>
-        /// When implemented determines which symbols are a buy/sell
-        /// signal
+        /// When implemented determines which symbols are a buy/sell.
         /// </summary>
         /// <returns></returns>
         IEnumerable<Signal> FindSignals();
