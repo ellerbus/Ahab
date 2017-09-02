@@ -35,16 +35,8 @@
       <HintPath>..\packages\Augment.2.1.0\lib\net451\Augment.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Augment.Mailing, Version=2.2.6284.38419, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Augment.Mailing.2.2.0\lib\net451\Augment.Mailing.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
       <HintPath>..\..\thestocksniper\TheStockSniper\packages\CsvHelper.2.16.3.0\lib\net45\CsvHelper.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="DotLiquid, Version=2.0.24.0, Culture=neutral, PublicKeyToken=82e46016ecf9f07c, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotLiquid.2.0.24\lib\NET45\DotLiquid.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Ensure.That, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
