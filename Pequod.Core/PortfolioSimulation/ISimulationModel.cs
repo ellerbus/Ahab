@@ -18,7 +18,7 @@ namespace Pequod.Core.PortfolioSimulation
         /// <param name="buy"></param>
         /// <param name="balance">Current portfolio balance</param>
         /// <returns>Return less than 1 to ignore the request</returns>
-        int GetSharesToPurchase(Price buy, double balance);
+        int GetSharesToPurchase(double price, double balance);
 
         /// <summary>
         /// Starting balance for this simulation

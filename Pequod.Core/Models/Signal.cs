@@ -111,6 +111,8 @@
             }
         }
 
+        public int Ordinal { get; set; }
+
         #endregion
     }
 }

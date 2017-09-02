@@ -114,7 +114,7 @@ namespace Pequod.Core.Models
         /// <summary>
         /// Gets / Sets the days volume
         /// </summary>
-        public long Volume { get; set; }
+        public double Volume { get; set; }
 
         /// <summary>
         /// Gets the value used to convert (or make adjustments)

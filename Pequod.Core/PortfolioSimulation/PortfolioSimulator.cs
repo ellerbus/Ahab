@@ -84,7 +84,7 @@ namespace Pequod.Core.PortfolioSimulation
             {
                 if (trx.Type == TransactionTypes.Buy)
                 {
-                    int shares = Model.GetSharesToPurchase(trx.Signal.Buy, Balance);
+                    int shares = Model.GetSharesToPurchase(trx.Signal.Buy.Close, Balance);
 
                     if (shares > 0)
                     {
