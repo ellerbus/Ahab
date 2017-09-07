@@ -8,26 +8,22 @@ using Pequod.Core.Models;
 
 namespace Pequod.Core
 {
-    public interface IDataService
+    public interface IQuoterService
     {
-        IEnumerable<IndexSymbol> GetComponentsOfSp500();
-
-        IEnumerable<Price> GetEndOfDayPrices(DateTime date);
+        IEnumerable<IndexSymbol> GetSp500Symbols();
 
         IEnumerable<Price> GetEndOfDayPrices(string symbol, DateTime date);
 
         IEnumerable<Price> GetEndOfDayPrices(string symbol, DateTime start, DateTime end);
 
-        IEnumerable<Price> GetQuotes(IEnumerable<string> symbols);
+        IEnumerable<Price> GetEndOfDayPrices(IEnumerable<string> symbols);
     }
 
-    public class DataService : IDataService
+    public class QuoterService : IQuoterService
     {
         #region Members
 
         private const string _quandlUrl = "https://www.quandl.com/api/v3";
-
-        //private const string _yahooUrl = "http://real-chart.finance.yahoo.com/table.csv";
 
         private IDownloaderService _downloader;
 
@@ -35,7 +31,7 @@ namespace Pequod.Core
 
         #region Constructors
 
-        public DataService(IDownloaderService downloader)
+        public QuoterService(IDownloaderService downloader)
         {
             _downloader = downloader;
         }
@@ -48,11 +44,11 @@ namespace Pequod.Core
         /// 
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<IndexSymbol> GetComponentsOfSp500()
+        public IEnumerable<IndexSymbol> GetSp500Symbols()
         {
             string url = "http://data.okfn.org/data/core/s-and-p-500-companies/r/constituents.csv";
 
-            string content = _downloader.GetStringAsync(url, "SP500.csv").Result;
+            string content = _downloader.GetStringAsync(url).Result;
 
             CsvConfiguration cfg = IndexSymbolMap.GetConfiguration();
 
@@ -68,12 +64,10 @@ namespace Pequod.Core
         /// <returns></returns>
         public IEnumerable<Price> GetEndOfDayPrices(DateTime date)
         {
-            string url = $"{_quandlUrl}/datatables/WIKI/PRICES.csv" +
-                $"?qopts.columns=ticker,date,close,adj_close,volume" +
-                $"&api_key={Configuration.QuanDlApiKey}" +
+            string url = GetBaseQuanDlUrl() +
                 $"&date={date:yyyy-MM-dd}";
 
-            string content = _downloader.GetStringAsync(url, $"EOD-ALL-{date:yyyyMMdd}.csv").Result;
+            string content = _downloader.GetStringAsync(url).Result;
 
             CsvConfiguration cfg = PriceMap.GetConfigurationForQuanDL();
 
@@ -94,13 +88,11 @@ namespace Pequod.Core
         /// <returns></returns>
         public IEnumerable<Price> GetEndOfDayPrices(string symbol, DateTime date)
         {
-            string url = $"{_quandlUrl}/datatables/WIKI/PRICES.csv" +
-                $"?qopts.columns=ticker,date,close,adj_close,volume" +
-                $"&api_key={Configuration.QuanDlApiKey}" +
+            string url = GetBaseQuanDlUrl() +
                 $"&date={date:yyyy-MM-dd}" +
                 $"&ticker={symbol}";
 
-            string content = _downloader.GetStringAsync(url, $"EOD-{symbol}-{date:yyyyMMdd}.csv").Result;
+            string content = _downloader.GetStringAsync(url).Result;
 
             CsvConfiguration cfg = PriceMap.GetConfigurationForQuanDL();
 
@@ -121,14 +113,12 @@ namespace Pequod.Core
         /// <returns></returns>
         public IEnumerable<Price> GetEndOfDayPrices(string symbol, DateTime start, DateTime end)
         {
-            string url = $"{_quandlUrl}/datatables/WIKI/PRICES.csv" +
-                $"?qopts.columns=ticker,date,close,adj_close,volume" +
-                $"&api_key={Configuration.QuanDlApiKey}" +
+            string url = GetBaseQuanDlUrl() +
                 $"&date.gte={start:yyyy-MM-dd}" +
                 $"&date.lte={end:yyyy-MM-dd}" +
                 $"&ticker={symbol}";
 
-            string content = _downloader.GetStringAsync(url, $"EOD-{symbol}-{start:yyyyMMdd}-{end:yyyyMMdd}.csv").Result;
+            string content = _downloader.GetStringAsync(url).Result;
 
             CsvConfiguration cfg = PriceMap.GetConfigurationForQuanDL();
 
@@ -147,14 +137,12 @@ namespace Pequod.Core
         /// </summary>
         /// <param name="date"></param>
         /// <returns></returns>
-        public IEnumerable<Price> GetQuotes(IEnumerable<string> symbols)
+        public IEnumerable<Price> GetEndOfDayPrices(IEnumerable<string> symbols)
         {
-            string url = $"{_quandlUrl}/datatables/WIKI/PRICES.csv" +
-                $"?qopts.columns=ticker,date,close,adj_close,volume" +
-                $"&api_key={Configuration.QuanDlApiKey}" +
+            string url = GetBaseQuanDlUrl() +
                 $"&ticker={symbols.Join(",")}";
 
-            string content = _downloader.GetStringAsync(url, $"EODQ-{DateTime.Now:yyyyMMdd}.csv").Result;
+            string content = _downloader.GetStringAsync(url).Result;
 
             CsvConfiguration cfg = PriceMap.GetConfigurationForQuanDL();
 
@@ -168,34 +156,15 @@ namespace Pequod.Core
             }
         }
 
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <param name="date"></param>
-        ///// <returns></returns>
-        //public IEnumerable<Price> GetEndOfDayPrices(string symbol, DateTime start, DateTime end)
-        //{
-        //    string url = $"{_yahooUrl}?s={symbol}&g=d" +            //daily
-        //    $"&a={start.Month - 1}&b={start.Day}&c={start.Year}" +  //start
-        //    $"&d={end.Month - 1}&e={end.Day}&f={end.Year}" +        //end
-        //    $""
-        //    ;
+        private string GetBaseQuanDlUrl()
+        {
+            string url = $"{_quandlUrl}/datatables/WIKI/PRICES.csv" +
+                $"?qopts.columns=ticker,date,close,adj_close,volume" +
+                $"&api_key={Configuration.QuanDlApiKey}";
 
-        //    string content = _downloader.GetStringAsync(url, $"EOD-{symbol}-{start:yyyyMMdd}-{end:yyyyMMdd}.csv").Result;
+            return url;
 
-        //    CsvConfiguration cfg = PriceMap.GetConfigurationForYahoo();
-
-        //    CsvReader csvReader = new CsvReader(new StringReader(content), cfg);
-
-        //    foreach (Price p in csvReader.GetRecords<Price>())
-        //    {
-        //        p.Symbol = symbol;
-
-        //        p.MakeAdjustments();
-
-        //        yield return p;
-        //    }
-        //}
+        }
 
         #endregion
     }

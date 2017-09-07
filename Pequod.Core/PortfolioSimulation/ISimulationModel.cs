@@ -15,7 +15,7 @@ namespace Pequod.Core.PortfolioSimulation
         /// <summary>
         /// Determine the total number of shares to purchase
         /// </summary>
-        /// <param name="buy"></param>
+        /// <param name="price"></param>
         /// <param name="balance">Current portfolio balance</param>
         /// <returns>Return less than 1 to ignore the request</returns>
         int GetSharesToPurchase(double price, double balance);

@@ -16,11 +16,11 @@ namespace Pequod.CommandLine
 
             IDownloaderService downloader = new DownloaderService();
 
-            IDataService ds = new DataService(downloader);
+            IQuoterService ds = new QuoterService(downloader);
 
-            log.Debug($"SP500.Count={ds.GetComponentsOfSp500().Count()}");
+            log.Debug($"SP500.Count={ds.GetSp500Symbols().Count()}");
 
-            log.Debug($"EOD.Count={ds.GetEndOfDayPrices(DateTime.Today.AddDays(-1)).Count()}");
+            //log.Debug($"EOD.Count={ds.GetEndOfDayPrices(DateTime.Today.AddDays(-1)).Count()}");
 
             log.Debug($"EOD.Count={ds.GetEndOfDayPrices("WDC", DateTime.Today.AddDays(-30), DateTime.Today.AddDays(-1)).Count()}");
 

@@ -57,9 +57,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Configs\Local.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="Configs\log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -13,7 +13,7 @@ namespace Pequod.CommandLine
     {
         #region Members
 
-        private IDataService _dataService;
+        private IQuoterService _quoterService;
         private int _windowSize = 3;
 
         #endregion
@@ -22,7 +22,7 @@ namespace Pequod.CommandLine
 
         public TechnicalAnalysisPortfolioModel()
         {
-            _dataService = new DataService(new DownloaderService());
+            _quoterService = new QuoterService(new DownloaderService());
         }
 
         #endregion
@@ -42,7 +42,7 @@ namespace Pequod.CommandLine
         {
             Range<DateTime> dateRange = new Range<DateTime>(StartingDate, EndingDate);
 
-            IList<string> symbols = _dataService.GetComponentsOfSp500().Select(x => x.Symbol).ToList();
+            IList<string> symbols = _quoterService.GetSp500Symbols().Select(x => x.Symbol).ToList();
 
             foreach (string symbol in symbols)
             {
@@ -267,13 +267,13 @@ namespace Pequod.CommandLine
 
         #region GetSharesToPurchase Methods
 
-        public int GetSharesToPurchase(Price buy, double balance)
+        public int GetSharesToPurchase(double price, double balance)
         {
             double amount = Math.Min(balance, 1000);
 
-            double shares = Math.Floor(amount / buy.Close);
+            double shares = Math.Floor(amount / price);
 
-            double purchase = shares * buy.Close + Commission;
+            double purchase = shares * price + Commission;
 
             double reserve = 1500;
 
@@ -291,7 +291,7 @@ namespace Pequod.CommandLine
 
         private Prices GetPricesFor(string symbol)
         {
-            IEnumerable<Price> data = _dataService.GetEndOfDayPrices(symbol, StartingDate, EndingDate);
+            IEnumerable<Price> data = _quoterService.GetEndOfDayPrices(symbol, StartingDate, EndingDate);
 
             Prices prices = new Prices(symbol, data);
 

@@ -24,6 +24,12 @@ namespace Pequod.Core
             Last = 5
         }
 
+        /// <summary>
+        /// Gets the first trading day of the month given a specific day (ie. Friday or Monday) avoiding market holidays
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <param name="dayOfWeek"></param>
+        /// <returns></returns>
         public static DateTime FirstTradingDayOfMonth(this DateTime dt, DayOfWeek dayOfWeek)
         {
             DateTime tradingDate = GetNthDayOfNthWeek(dt, dayOfWeek, Weeks.First);
